@@ -7,7 +7,9 @@ class Supplier < ApplicationRecord
   # verify if exist another supplier with same email, only one supplier with these email per user
   def verify_repeated_email
     suppliers = Supplier.where(email: email, user_id: user_id)
-    if supplier.blank?
+    if suppliers.blank?
+      true
+    elsif suppliers.first.id == self.id
       true
     else
       errors.add(:email, 'não pode haver dois fornecedores com mesmo email')
