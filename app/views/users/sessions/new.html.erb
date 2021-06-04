@@ -1,26 +1,65 @@
-<h2>Log in</h2>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <%# TODO: colocar um título %>
+    <title>Farol - login</title>
+    <%# TODO: mudar com descrição do sistema %>
+    <meta name="description" content="Mudar com a descrição do sistema.">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload', :defer => 'defer' %>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+</head>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :login %><br />
-    <%= f.text_field :login, autofocus: true, autocomplete: "email" %>
-  </div>
+<body>
+  <style>
+    .custom-control-label::before{
+      position: static !important;
+    }
+  </style>
+  
 
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
+  <div class="col-lg-4 col-md-4 auth-form mx-auto mt-3">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="auth-form__title text-center mb-4">Acesse sua Conta</h5>
+        
 
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+          <%= render "devise/shared/error_messages", resource: resource %>
+          <%= notice || alert %>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Login</label>
+            <%= f.text_field :login, autofocus: true, autocomplete: "Email", class: "form-control", placeholder: "Email ou Username" %>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Senha</label>
+            <%= f.password_field :password, autocomplete: "current-password", class: "form-control", placeholder: "Senha" %>
+          </div>
+          <div class="form-group mb-3 d-table mx-0 pt-3" >
+            <div class="custom-control custom-checkbox mb-1 px-0">
+              <% if devise_mapping.rememberable? %>
+                <div class="field d-inline-flex">
+                  <input type="checkbox" class="custom-control-input d-inline-flex" id="customCheck2" name="user[remember_me]" style="margin-right:10px">
+                  <label class="custom-control-label d-inline-flex" for="customCheck2" style="position: static !important">Lembre de mim</label>
+                </div>
+              <% end %>
+            </div>
+          </div>
+          <%= f.submit "Entrar", class: "btn btn-pill btn-primary text-white d-table mx-auto" %>
+        <% end %>
+      </div>
+
+        <div class="card-footer border-top">
+          <div class="row">
+            <div class="col-6">
+              <%= render "devise/shared/links" %>
+            </div>
+          </div>  
+        </div>
     </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit "Log in" %>
+    
   </div>
-<% end %>
-
-<%= render "users/shared/links" %>

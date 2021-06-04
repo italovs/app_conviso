@@ -1,0 +1,43 @@
+<h1 id="main-title">Fornecedores</h1>
+<br>
+
+<div class="row" id="ej-list">
+	<div class="col">
+		<div class="card card-small mb-4">
+			<div class="card-header border-bottom bg-f-green">
+				<h6 class="m-0 text-white">Fornecedores</h6>
+			</div>
+			<div class="card-body p-0 pb-3 text-center">
+				<table class="table mb-0" id="junior_enterprises">
+					<thead class="bg-light">
+						<tr>
+						<th scope="col" class="border-0">#</th>
+						<th scope="col" class="border-0">Nome</th>
+						<th scope="col" class="border-0">Email</th>
+            <th scope="col" class="border-0">Categoria</th>
+						<th scope="col" class="border-0">Ações</th>
+						</tr>
+					</thead>
+					<tbody id="membros_t">
+						<% cont = 1 %>
+						<% @suppliers.each do |supplier| %>
+							<tr>
+								<td><%= cont %></td>
+								<td><%= supplier.name %></td>
+								<td><%= supplier.email %></td>
+                <td><%= supplier.category%></td>
+								<td>
+                  <i class="btn btn-info material-icons " title="editar fornecedor">edit</i>
+                  <%= link_to supplier_delete_path(supplier), method: :delete do%>
+									  <i class="btn btn-danger material-icons " title="deletar fornecedor">close</i>
+                  <% end %>
+								</td>
+								<% cont = cont + 1%>
+							</tr>
+						<% end %>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

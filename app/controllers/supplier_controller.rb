@@ -1,6 +1,6 @@
-class SupplierController < ApplicationController
+class SupplierController < AdministrativeController
   def index
-    @suppliers = Supplier.all
+    @suppliers = Supplier.where(user_id: current_user.id)
   end
 
   def show
@@ -37,7 +37,9 @@ class SupplierController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+    @supplier = Suppĺier.find(params[:id]);
+  end
 
   def update
     supplier = Supplier.find(params[:id])
