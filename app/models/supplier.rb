@@ -12,7 +12,7 @@ class Supplier < ApplicationRecord
     elsif suppliers.first.id == self.id
       true
     else
-      errors.add(:email, 'não pode haver dois fornecedores com mesmo email')
+      errors.add(:email,'já cadastrado para outro fornecedor')
     end
   end
 end

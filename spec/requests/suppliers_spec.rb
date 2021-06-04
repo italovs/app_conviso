@@ -28,9 +28,11 @@ RSpec.describe 'Suppliers', type: :request do
       it 'return unauthorized' do
         user = create(:user)
         second_supplier = create(:supplier, user_id: user.id)
-        post supplier_update_path, params: { "id": second_supplier.id,
-                                             "name": FFaker::Company.name,
-                                             "email": FFaker::Internet.email }
+        put supplier_update_path(second_supplier), params: { supplier: {
+          id: second_supplier.id,
+          name: FFaker::Company.name,
+          email: FFaker::Internet.email
+        } }
         expect(response.status).to eq(401)
       end
     end
@@ -38,35 +40,34 @@ RSpec.describe 'Suppliers', type: :request do
     context 'when user is the owner' do
       it 'return ok and the new supplier datas' do
         name = FFaker::Company.name
-        post supplier_update_path, params: { "id": @supplier.id,
-                                             "name": name }
+        put supplier_update_path(@supplier), params: { supplier: { name: name } }
         expect(response.body[name]).to eq(name)
       end
     end
   end
-  describe 'POST /suppliers/create', :without_supplier do
-    it 'return 201 when supplier is created' do
-      new_supplier = { "name": FFaker::Company.name,
-                       "email": FFaker::Internet.email,
-                       "phone": FFaker::PhoneNumber.phone_number,
-                       "category": FFaker::Product.product }
-      post supplier_create_path, params: new_supplier
-      expect(response.status).to eq(201)
+  describe 'POST /suppliers', :without_supplier do
+    it 'redirect to root when supplier is created' do
+      post supplier_create_path, params: { supplier:
+                                            { name: FFaker::Company.name,
+                                              email: FFaker::Internet.email,
+                                              phone: FFaker::PhoneNumber.phone_number,
+                                              category: FFaker::Product.product } }
+      expect(response).to redirect_to(root_path)
     end
     it 'redirect if user is not logged' do
       sign_out @user
-      new_supplier = { "name": FFaker::Company.name,
-                       "email": FFaker::Internet.email,
-                       "phone": FFaker::PhoneNumber.phone_number,
-                       "category": FFaker::Product.product }
-      post supplier_create_path, params: new_supplier
+      post supplier_create_path, params: { supplier:
+                                            { name: FFaker::Company.name,
+                                              email: FFaker::Internet.email,
+                                              phone: FFaker::PhoneNumber.phone_number,
+                                              category: FFaker::Product.product } }
       expect(response).to redirect_to(user_session_path)
     end
   end
 
-  describe 'DELETE /suppliers/delete' do
+  describe 'DELETE /suppliers/delete/:id' do
     it 'return 204' do
-      delete supplier_delete_path, params: { "id": @supplier.id }
+      delete supplier_delete_path(@supplier)
       expect(response.status).to eq(204)
     end
   end

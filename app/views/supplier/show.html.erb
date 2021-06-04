@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @supplier.name %>
+</p>
+
+<p>
+  <strong>Category:</strong>
+  <%= @supplier.category %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @supplier.email %>
+</p>
+
+<p>
+  <strong>Phone:</strong>
+  <%= @supplier.phone %>
+</p>
+
+<%= link_to 'Editar', supplier_edit_path(@supplier) %> |
+<%= link_to 'Voltar', root_path %>

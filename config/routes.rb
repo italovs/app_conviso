@@ -7,11 +7,11 @@ Rails.application.routes.draw do
   get '/suppliers', to: 'supplier#index', as: 'suppliers'
   get '/suppliers/show/:id', to: 'supplier#show', as: 'supplier_show'
   get '/suppliers/new', to: 'supplier#new', as: 'supplier_new'
-  get '/suppliers/edit/:id', to: 'supplier#edit', as: 'supplier_edit'
-  post '/suppliers/create', to: 'supplier#create', as: 'supplier_create'
-  delete '/suppliers/delete/:id', to: 'supplier#destroy', as: 'supplier_delete'
-  post '/suppliers/update', to: 'supplier#update', as: 'supplier_update'
-
+  get '/suppliers/:id/edit', to: 'supplier#edit', as: 'supplier_edit'
+  post '/suppliers', to: 'supplier#create', as: 'supplier_create'
+  delete '/suppliers/:id', to: 'supplier#destroy', as: 'supplier_delete'
+  put '/suppliers/:id', to: 'supplier#update', as: 'supplier_update'
+  root to: 'supplier#index', as: 'root'
   authenticated :user do
     root to: 'supplier#index', as: 'logged_user_root'
   end
