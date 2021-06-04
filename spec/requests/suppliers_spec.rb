@@ -17,7 +17,7 @@ RSpec.describe 'Suppliers', type: :request do
   end
 
   describe 'GET /suppliers/show/:id' do
-    it 'return the data of supplier' do
+    it 'return status code 200' do
       get "/suppliers/show/#{@supplier.id}"
       expect(response.status).to eq(200)
     end
@@ -38,7 +38,7 @@ RSpec.describe 'Suppliers', type: :request do
     end
 
     context 'when user is the owner' do
-      it 'return ok and the new supplier datas' do
+      it 'redirect to root_path' do
         name = FFaker::Company.name
         put supplier_update_path(@supplier), params: { name: name}
         expect(response).to redirect_to(root_path)
@@ -66,7 +66,7 @@ RSpec.describe 'Suppliers', type: :request do
   end
 
   describe 'DELETE /suppliers/delete/:id' do
-    it 'return 204' do
+    it 'redirect to root_path' do
       delete supplier_delete_path(@supplier)
       expect(response).to redirect_to(root_path)
     end
