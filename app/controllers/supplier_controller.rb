@@ -5,8 +5,11 @@ class SupplierController < AdministrativeController
 
   def show
     @supplier = Supplier.find(params[:id])
+    
     if @supplier.blank?
       render json: "fornecedor não encontrado",status: :not_found
+    else
+      render :show, status: :ok
     end
   end
 
@@ -19,7 +22,7 @@ class SupplierController < AdministrativeController
     @supplier.user_id = current_user.id
     if @supplier.save
       @suppliers = Supplier.where(user_id: current_user)
-      redirect_to( root_path)
+      redirect_to(root_path)
     else
       render :new, status: :unprocessable_entity
     end
@@ -29,10 +32,9 @@ class SupplierController < AdministrativeController
     supplier = Supplier.find(params[:id])
     if supplier.blank?
       render json: 'Fornecedor não encontrado', status: :not_found
-      
     else
       supplier.destroy
-      redirect_to(root_path, status: :no_content)
+      redirect_to(root_path)
     end
   end
 
@@ -42,14 +44,13 @@ class SupplierController < AdministrativeController
 
   def update
     supplier = Supplier.find(params[:id])
-    supplier.name = params[:name]
-    supplier.email = params[:email]
-    supplier.category = params[:category]
-    supplier.phone = params[:phone]
+    supplier.name = params[:name] if params[:name].present?
+    supplier.email = params[:email] if params[:email].present?
+    supplier.category = params[:category] if params[:category].present?
+    supplier.phone = params[:phone] if params[:phone].present?
     if supplier.user_id == current_user.id
       if supplier.save
-        @suppliers = Supplier.where(user_id: current_user.id)
-        render :index, status: :ok
+        redirect_to(root_path)
       else
         render json: "falha ao atualizar fornecedor, #{supplier.errors}", status: :unprocessable_entity
       end
